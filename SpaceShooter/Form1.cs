@@ -27,6 +27,17 @@ namespace SpaceShooter
             stars = new PictureBox[20];
             random = new Random();
 
+            AddStars();
+        }
+
+        private void MoveBackgroundTimer_Tick(object sender, EventArgs e)
+        {
+            SortStars(0);
+            SortStars(stars.Length / 2);
+        }
+
+        void AddStars()
+        {
             for (int i = 0; i < stars.Length; i++)
             {
                 stars[i] = new PictureBox();
@@ -46,12 +57,6 @@ namespace SpaceShooter
 
                 Controls.Add(stars[i]);
             }
-        }
-
-        private void MoveBackgroundTimer_Tick(object sender, EventArgs e)
-        {
-            SortStars(0);
-            SortStars(stars.Length / 2);
         }
 
         void SortStars (int minItem)
