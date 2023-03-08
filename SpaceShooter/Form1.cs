@@ -12,9 +12,9 @@ namespace SpaceShooter
 {
     public partial class Form1 : Form
     {
-        private Random random;
-        private PictureBox[] stars;
-        private int backgroundSpeed;
+        private Random _random;
+        private PictureBox[] _stars;
+        private int _backgroundSpeed;
 
         public Form1()
         {
@@ -23,20 +23,20 @@ namespace SpaceShooter
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            backgroundSpeed = 4;
-            stars = new PictureBox[20];
-            random = new Random();
+            _backgroundSpeed = 4;
+            _stars = new PictureBox[20];
+            _random = new Random();
 
-            AddStars();
+            AddStars(_stars, _random);
         }
 
         private void MoveBackgroundTimer_Tick(object sender, EventArgs e)
         {
-            SortStars(0);
-            SortStars(stars.Length / 2);
+            SortStars(0, _stars, _backgroundSpeed);
+            SortStars(_stars.Length / 2, _stars, _backgroundSpeed);
         }
 
-        void AddStars()
+        void AddStars(PictureBox[] stars, Random random)
         {
             for (int i = 0; i < stars.Length; i++)
             {
@@ -59,7 +59,7 @@ namespace SpaceShooter
             }
         }
 
-        void SortStars (int minItem)
+        void SortStars (int minItem, PictureBox[] stars, int backgroundSpeed)
         {
             for (int i = 0;  minItem < stars.Length; minItem++)
             {
