@@ -30,7 +30,7 @@ namespace SpaceShooter
             for (int i = 0; i < stars.Length; i++)
             {
                 stars[i] = new PictureBox();
-                stars[i].BorderStyle = BorderStyle.None;
+                stars[i].BorderStyle = BorderStyle.FixedSingle;
                 stars[i].Location = new Point(random.Next(20, 540), random.Next(10, 400));
 
                 if (i % 2 == 1)
@@ -40,7 +40,7 @@ namespace SpaceShooter
                 }
                 else
                 {
-                    stars[i].Size = new Size(3, 3);
+                    stars[i].Size = new Size(4, 4);
                     stars[i].BackColor = Color.DarkGray;
                 }
 
