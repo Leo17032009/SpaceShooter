@@ -8,3 +8,13 @@ C:\Users\Student\source\repos\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.c
 C:\Users\Student\source\repos\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.csproj.CoreCompileInputs.cache
 C:\Users\Student\source\repos\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.exe
 C:\Users\Student\source\repos\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.pdb
+D:\Projects\SpaceShooter\SpaceShooter\bin\Debug\SpaceShooter.exe.config
+D:\Projects\SpaceShooter\SpaceShooter\bin\Debug\SpaceShooter.exe
+D:\Projects\SpaceShooter\SpaceShooter\bin\Debug\SpaceShooter.pdb
+D:\Projects\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.csprojAssemblyReference.cache
+D:\Projects\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.Form1.resources
+D:\Projects\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.Properties.Resources.resources
+D:\Projects\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.csproj.GenerateResource.cache
+D:\Projects\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.csproj.CoreCompileInputs.cache
+D:\Projects\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.exe
+D:\Projects\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.pdb

@@ -31,7 +31,7 @@ namespace SpaceShooter
             {
                 stars[i] = new PictureBox();
                 stars[i].BorderStyle = BorderStyle.None;
-                stars[i].Location = new Point(random.Next(20, 400), random.Next(10, 400));
+                stars[i].Location = new Point(random.Next(20, 540), random.Next(10, 400));
 
                 if (i % 2 == 1)
                 {
@@ -50,23 +50,19 @@ namespace SpaceShooter
 
         private void MoveBackgroundTimer_Tick(object sender, EventArgs e)
         {
-            for (int i = 0; i < stars.Length; i++)
+            SortStars(0);
+            SortStars(stars.Length / 2);
+        }
+
+        void SortStars (int minItem)
+        {
+            for (int i = 0;  minItem < stars.Length; minItem++)
             {
-                stars[i].Top += backgroundSpeed;
+                stars[minItem].Top += backgroundSpeed;
 
-                if (stars[i].Top >= Height)
+                if (stars[minItem].Top >= Height)
                 {
-                    stars[i].Top = -stars[i].Height;
-                }
-            }
-
-            for (int i = stars.Length / 2; i < stars.Length; i++)
-            {
-                stars[i].Top += backgroundSpeed - 2;
-
-                if (stars[i].Top >= Height)
-                {
-                    stars[i].Top = -stars[i].Height;
+                    stars[minItem].Top = -stars[minItem].Height;
                 }
             }
         }
