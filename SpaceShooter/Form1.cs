@@ -14,7 +14,10 @@ namespace SpaceShooter
     {
         private Random _random;
         private PictureBox[] _stars;
+        private PictureBox[] _munitions;
         private int _backgroundSpeed;
+        private int _playerSpeed;
+        private int _munitionSpeed;
 
         public Form1()
         {
@@ -26,8 +29,24 @@ namespace SpaceShooter
             _backgroundSpeed = 4;
             _stars = new PictureBox[20];
             _random = new Random();
+            _playerSpeed = 5;
+            _munitionSpeed = 20;
+
+            Image munition = Image.FromFile("assets\\munition.png");
+
+            _munitions = new PictureBox[3];
 
             AddStars(_stars, _random);
+
+            for (int i = 0; i < _munitions.Length; i++)
+            {
+                _munitions[i] = new PictureBox();
+                _munitions[i].Size = new Size(6, 6);
+                _munitions[i].Image = munition;
+                _munitions[i].SizeMode = PictureBoxSizeMode.Zoom;
+                _munitions[i].BorderStyle = BorderStyle.None;
+                Controls.Add(_munitions[i]);
+            }
         }
 
         private void MoveBackgroundTimer_Tick(object sender, EventArgs e)
@@ -70,6 +89,69 @@ namespace SpaceShooter
                     stars[minItem].Top = -stars[minItem].Height;
                 }
             }
+        }
+
+        private void UpMoveTimer_Tick(object sender, EventArgs e)
+        {
+            if (Player.Top > 10)
+            {
+                Player.Top -= _playerSpeed;
+            }
+        }
+
+        private void DownMoveTimer_Tick(object sender, EventArgs e)
+        {
+            if (Player.Top < 450)
+            {
+                Player.Top += _playerSpeed;
+            }
+        }
+
+        private void LeftMoveTimer_Tick(object sender, EventArgs e)
+        {
+            if (Player.Left > 10)
+            {
+                Player.Left -= _playerSpeed;
+            }
+        }
+
+        private void RightMoveTimer_Tick(object sender, EventArgs e)
+        {
+            if (Player.Right < 500)
+            {
+                Player.Left += _playerSpeed;
+            }
+        }
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Right)
+            {
+                RightMoveTimer.Start();
+            }
+
+            if (e.KeyCode == Keys.Left)
+            {
+                LeftMoveTimer.Start();
+            }
+
+            if (e.KeyCode == Keys.Down)
+            {
+                DownMoveTimer.Start();
+            }
+
+            if (e.KeyCode == Keys.Up)
+            {
+                UpMoveTimer.Start();
+            }
+        }
+
+        private void Form1_KeyUp(object sender, KeyEventArgs e)
+        {
+            RightMoveTimer.Stop();
+            LeftMoveTimer.Stop();
+            DownMoveTimer.Stop();
+            UpMoveTimer.Stop();
         }
     }
 }
