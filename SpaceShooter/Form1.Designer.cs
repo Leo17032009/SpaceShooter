@@ -47,11 +47,12 @@
             // 
             // Player
             // 
-            this.Player.BackColor = System.Drawing.Color.DarkBlue;
+            this.Player.BackColor = System.Drawing.Color.Transparent;
             this.Player.Image = global::SpaceShooter.Properties.Resources.player;
-            this.Player.Location = new System.Drawing.Point(229, 97);
+            this.Player.Location = new System.Drawing.Point(344, 149);
+            this.Player.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Player.Name = "Player";
-            this.Player.Size = new System.Drawing.Size(25, 25);
+            this.Player.Size = new System.Drawing.Size(38, 38);
             this.Player.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.Player.TabIndex = 0;
             this.Player.TabStop = false;
@@ -78,16 +79,17 @@
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkBlue;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.ClientSize = new System.Drawing.Size(522, 485);
+            this.ClientSize = new System.Drawing.Size(774, 720);
             this.Controls.Add(this.Player);
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximumSize = new System.Drawing.Size(538, 524);
-            this.MinimumSize = new System.Drawing.Size(538, 524);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.MaximumSize = new System.Drawing.Size(796, 776);
+            this.MinimumSize = new System.Drawing.Size(796, 776);
             this.Name = "Form1";
             this.Text = "Space Shooter";
             this.Load += new System.EventHandler(this.Form1_Load);
