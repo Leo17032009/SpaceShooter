@@ -93,16 +93,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\27696785.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\276967851.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\276967850.png" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\1616610141_5-p-sinii-fon-kosmos-5.jpg" />
