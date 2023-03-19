@@ -7,18 +7,18 @@ namespace SpaceShooter
 {
     public partial class Form1 : Form
     {
-        private WindowsMediaPlayer _backgroundSound;
-        private WindowsMediaPlayer _shootSound;
-        private WindowsMediaPlayer _explosionSound;
+        private WindowsMediaPlayer _backgroundSound; //Создаём приватное поле со звуком игры
+        private WindowsMediaPlayer _shootSound; //Создаём приватное поле со звуком выстрела
+        private WindowsMediaPlayer _explosionSound; //Создаём приватное поле со звуком разрыва снаряда
         private Random _random; //Создаём приватное поле Рандом
         private PictureBox[] _stars; //Создаём приватное поле со звёздами
         private PictureBox[] _munitions; //Создаём приватное поле с изображениями боеприпасов
-        private PictureBox[] _enemies;
-        private int _enemySpeed;
+        private PictureBox[] _enemies; //Создаём приватное поле с врагами
+        private int _enemySpeed; //Создаём приватное поле со скоростью врагов
         private int _backgroundSpeed; //Создаём приватное поле со скоростью звёзд 
         private int _playerSpeed; //Создаём приватное поле со скоростью  игрока
         private int _munitionSpeed; //Создаём приватное поле со скоростью боеприпаса
-        private int _enemiesMunitionSpeed;
+        private int _enemiesMunitionSpeed; //Создаём приватное поле со скоростью снарядов врага
 
         public Form1()
         {
@@ -39,40 +39,40 @@ namespace SpaceShooter
             _munitions = new PictureBox[3]; //Три вида изображений боеприпасов
             _enemies = new PictureBox[10];
 
-            _backgroundSound = new WindowsMediaPlayer();
-            _shootSound = new WindowsMediaPlayer();
-            _explosionSound = new WindowsMediaPlayer();
+            _backgroundSound = new WindowsMediaPlayer(); //Иницилизируем звук игры
+            _shootSound = new WindowsMediaPlayer(); //Иницилизируем звук выстрела 
+            _explosionSound = new WindowsMediaPlayer(); //Иницилизируем звук разрыва снаряда
 
-            _backgroundSound.URL = "songs\\GameSound.mp3";
-            _shootSound.URL = "songs\\shoot.mp3";
-            _explosionSound.URL = "songs\\boom.mp3";
+            _backgroundSound.URL = "songs\\GameSound.mp3"; //Музыка будет браться из файла
+            _shootSound.URL = "songs\\shoot.mp3"; //Берём музыку из файла и присваиваем её звуку выстрела
+            _explosionSound.URL = "songs\\boom.mp3"; //Указываем путь до файла, из которого будет браться музыка
 
-            _backgroundSound.settings.setMode("loop", true);
-            _backgroundSound.settings.volume = 5;
-            _shootSound.settings.volume = 1;
-            _explosionSound.settings.volume = 6;
+            _backgroundSound.settings.setMode("loop", true); //Звук игры будет играть постоянно
+            _backgroundSound.settings.volume = 5; //Звук игры = 5 сила громкости
+            _shootSound.settings.volume = 1; //Звук выстрела = 1 сила громкости
+            _explosionSound.settings.volume = 6; //Звук разрыва снаряда = 6 сила громкости
 
-            for (int i = 0; i < _enemies.Length; i++)
+            for (int i = 0; i < _enemies.Length; i++) //Пока i меньше количество противников
             {
-                _enemies[i] = new PictureBox();
-                _enemies[i].BackColor = Color.Transparent;
-                _enemies[i].Size = new Size(25, 25);
-                _enemies[i].SizeMode = PictureBoxSizeMode.Zoom;
-                _enemies[i].Visible = false;
-                Controls.Add(_enemies[i]);
-                _enemies[i].Location = new Point((i + 1) * 47, -50);
+                _enemies[i] = new PictureBox(); //Враг = изображение
+                _enemies[i].BackColor = Color.Transparent; //Цвет врага = цвет фона
+                _enemies[i].Size = new Size(25, 25); //Размер врага = 25X25
+                _enemies[i].SizeMode = PictureBoxSizeMode.Zoom; //Изображение подстраивается под размер
+                _enemies[i].Visible = false; //Враг невидим
+                Controls.Add(_enemies[i]); //Добавляем врага
+                _enemies[i].Location = new Point((i + 1) * 47, -50); //Задаём расположение игроку
             }
 
-            ImageEnemy enemy1 = new ImageEnemy("Enemy4.png", _enemies[0]);
-            ImageEnemy enemy2 = new ImageEnemy("Enemy1.png", _enemies[1]);
-            ImageEnemy enemy3 = new ImageEnemy("Enemy2.png", _enemies[2]);
-            ImageEnemy enemy4 = new ImageEnemy("Enemy3.png", _enemies[3]);
-            ImageEnemy enemy5 = new ImageEnemy("Enemy1.png", _enemies[4]);
-            ImageEnemy enemy6 = new ImageEnemy("Enemy3.png", _enemies[5]);
-            ImageEnemy enemy7 = new ImageEnemy("Enemy2.png", _enemies[6]);
-            ImageEnemy enemy8 = new ImageEnemy("Enemy3.png", _enemies[7]);
-            ImageEnemy enemy9 = new ImageEnemy("Enemy1.png", _enemies[8]);
-            ImageEnemy enemy10 = new ImageEnemy("Enemy5.png", _enemies[9]);
+            ImageEnemy enemy1 = new ImageEnemy("Enemy4.png", _enemies[0]); //У первого врага будет изображение 4
+            ImageEnemy enemy2 = new ImageEnemy("Enemy1.png", _enemies[1]); //У второго врага будет изображение 1
+            ImageEnemy enemy3 = new ImageEnemy("Enemy2.png", _enemies[2]); //У третьего врага будет изображение 2
+            ImageEnemy enemy4 = new ImageEnemy("Enemy3.png", _enemies[3]); //У четвёртого врага будет изображение 3
+            ImageEnemy enemy5 = new ImageEnemy("Enemy1.png", _enemies[4]); //У пятого врага будет изображение 1
+            ImageEnemy enemy6 = new ImageEnemy("Enemy3.png", _enemies[5]); //У шестого врага будет изображение 3
+            ImageEnemy enemy7 = new ImageEnemy("Enemy2.png", _enemies[6]); //У седьмого врага будет изображение 2
+            ImageEnemy enemy8 = new ImageEnemy("Enemy3.png", _enemies[7]); //У восьмого врага будет изображение 3
+            ImageEnemy enemy9 = new ImageEnemy("Enemy1.png", _enemies[8]); //У девятого врага будет изображение 1
+            ImageEnemy enemy10 = new ImageEnemy("Enemy5.png", _enemies[9]); //У десятого врага будет изображение 5
 
             AddStars(_stars, _random); //Запускаем функцию с принимаемыми значениями звёзды и Рандом
 
@@ -193,50 +193,50 @@ namespace SpaceShooter
             UpMoveTimer.Stop(); //Останавливаем таймер
         }
 
-        private void MoveMunitionsTimer_Tick(object sender, EventArgs e)
+        private void MoveMunitionsTimer_Tick(object sender, EventArgs e) //Таймер для снарядов
         {
-            _shootSound.controls.play();
+            _shootSound.controls.play(); //Воспроизводим звук выстрела
 
-            for (int i = 0; i < _munitions.Length; i++)
+            for (int i = 0; i < _munitions.Length; i++) //Пока i меньше количества снарядов
             {
-                if (_munitions[i].Top > 0)
+                if (_munitions[i].Top > 0) //Если снаряд находится в зоне видимости
                 {
-                    _munitions[i].Visible = true;
-                    _munitions[i].Top -= _munitionSpeed;
+                    _munitions[i].Visible = true; //Делаем его видимым
+                    _munitions[i].Top -= _munitionSpeed; //Приближаем к верху экрана
                 }
-                else
+                else //Иначе
                 {
-                    _munitions[i].Visible = false;
-                    _munitions[i].Location = new Point(Player.Location.X + 10, Player.Location.Y - 1 * 30);
+                    _munitions[i].Visible = false; //Снаряд невидимый
+                    _munitions[i].Location = new Point(Player.Location.X + 10, Player.Location.Y - 1); //Меняем расположение игрока
                 }
             }
         }
 
-        private void MoveEnemiesTimer_Tick(object sender, EventArgs e)
+        private void MoveEnemiesTimer_Tick(object sender, EventArgs e) //Таймер показа врагов
         {
-            MoveEnemies();
+            MoveEnemies(); //Запускаем метод
         }
 
-        private void MoveEnemies()
+        private void MoveEnemies() //Метод показа врагов
         {
-            for (int i = 0; i < _enemies.Length; i++)
+            for (int i = 0; i < _enemies.Length; i++) //Пока i меньше количества врагов
             {
-                _enemies[i].Visible = true;
-                _enemies[i].Top += _enemySpeed;
+                _enemies[i].Visible = true; //Делаем врага видимым
+                _enemies[i].Top += _enemySpeed; //Отдаляем врага от верха экрана
 
-                if (_enemies[i].Top > Height)
+                if (_enemies[i].Top > Height) //Если враг находится дальше длины экрана
                 {
-                    _enemies[i].Location = new Point((i + 1) * 47, -50);
+                    _enemies[i].Location = new Point((i + 1) * 47, -50); //Меняем его положение
                 }
             }
         }
     }
 
-    class ImageEnemy
+    class ImageEnemy //Создаём класс с изображением игрока
     {
-        public ImageEnemy(string imageName, PictureBox enemy)
+        public ImageEnemy(string imageName, PictureBox enemy) //Создаём метод, принимающий врага и его изображение
         {
-            enemy.Image = Image.FromFile("assets\\" + imageName);
+            enemy.Image = Image.FromFile("assets\\" + imageName); //Изображение игрока = путь до файла
         }
     }
 }
