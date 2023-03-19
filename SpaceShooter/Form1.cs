@@ -1,23 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using WMPLib;
 
 namespace SpaceShooter
 {
     public partial class Form1 : Form
     {
+        private WindowsMediaPlayer _backgroundSound;
+        private WindowsMediaPlayer _shootSound;
+        private WindowsMediaPlayer _explosionSound;
         private Random _random; //Создаём приватное поле Рандом
         private PictureBox[] _stars; //Создаём приватное поле со звёздами
         private PictureBox[] _munitions; //Создаём приватное поле с изображениями боеприпасов
+        private PictureBox[] _enemies;
+        private int _enemySpeed;
         private int _backgroundSpeed; //Создаём приватное поле со скоростью звёзд 
         private int _playerSpeed; //Создаём приватное поле со скоростью  игрока
         private int _munitionSpeed; //Создаём приватное поле со скоростью боеприпаса
+        private int _enemiesMunitionSpeed;
 
         public Form1()
         {
@@ -31,10 +32,47 @@ namespace SpaceShooter
             _random = new Random(); //Иницилизируем Рандом
             _playerSpeed = 5; //Иницилизируем скорость игрока = 5
             _munitionSpeed = 20; //Иницилизируем скорость боеприпаса = 20
+            _enemySpeed = 5;
 
             Image munition = Image.FromFile("assets\\munition.png"); //Изображение боеприса = изображению munition.png
 
             _munitions = new PictureBox[3]; //Три вида изображений боеприпасов
+            _enemies = new PictureBox[10];
+
+            _backgroundSound = new WindowsMediaPlayer();
+            _shootSound = new WindowsMediaPlayer();
+            _explosionSound = new WindowsMediaPlayer();
+
+            _backgroundSound.URL = "songs\\GameSound.mp3";
+            _shootSound.URL = "songs\\shoot.mp3";
+            _explosionSound.URL = "songs\\boom.mp3";
+
+            _backgroundSound.settings.setMode("loop", true);
+            _backgroundSound.settings.volume = 5;
+            _shootSound.settings.volume = 1;
+            _explosionSound.settings.volume = 6;
+
+            for (int i = 0; i < _enemies.Length; i++)
+            {
+                _enemies[i] = new PictureBox();
+                _enemies[i].BackColor = Color.Transparent;
+                _enemies[i].Size = new Size(25, 25);
+                _enemies[i].SizeMode = PictureBoxSizeMode.Zoom;
+                _enemies[i].Visible = false;
+                Controls.Add(_enemies[i]);
+                _enemies[i].Location = new Point((i + 1) * 47, -50);
+            }
+
+            ImageEnemy enemy1 = new ImageEnemy("Enemy4.png", _enemies[0]);
+            ImageEnemy enemy2 = new ImageEnemy("Enemy1.png", _enemies[1]);
+            ImageEnemy enemy3 = new ImageEnemy("Enemy2.png", _enemies[2]);
+            ImageEnemy enemy4 = new ImageEnemy("Enemy3.png", _enemies[3]);
+            ImageEnemy enemy5 = new ImageEnemy("Enemy1.png", _enemies[4]);
+            ImageEnemy enemy6 = new ImageEnemy("Enemy3.png", _enemies[5]);
+            ImageEnemy enemy7 = new ImageEnemy("Enemy2.png", _enemies[6]);
+            ImageEnemy enemy8 = new ImageEnemy("Enemy3.png", _enemies[7]);
+            ImageEnemy enemy9 = new ImageEnemy("Enemy1.png", _enemies[8]);
+            ImageEnemy enemy10 = new ImageEnemy("Enemy5.png", _enemies[9]);
 
             AddStars(_stars, _random); //Запускаем функцию с принимаемыми значениями звёзды и Рандом
 
@@ -45,6 +83,7 @@ namespace SpaceShooter
                 _munitions[i].Image = munition; //Устанавливаем изображение боеприпасу
                 _munitions[i].SizeMode = PictureBoxSizeMode.Zoom; //Изображение боеприпаса будет подстраиваться под размер
                 _munitions[i].BorderStyle = BorderStyle.None; //У границ не будет стиля
+                _munitions[i].BackColor = Color.White;
                 Controls.Add(_munitions[i]); //Добавляем боеприпас на экран
             }
         }
@@ -152,6 +191,52 @@ namespace SpaceShooter
             LeftMoveTimer.Stop(); //Останавливаем таймер
             DownMoveTimer.Stop(); //Останавливаем таймер
             UpMoveTimer.Stop(); //Останавливаем таймер
+        }
+
+        private void MoveMunitionsTimer_Tick(object sender, EventArgs e)
+        {
+            _shootSound.controls.play();
+
+            for (int i = 0; i < _munitions.Length; i++)
+            {
+                if (_munitions[i].Top > 0)
+                {
+                    _munitions[i].Visible = true;
+                    _munitions[i].Top -= _munitionSpeed;
+                }
+                else
+                {
+                    _munitions[i].Visible = false;
+                    _munitions[i].Location = new Point(Player.Location.X + 10, Player.Location.Y - 1 * 30);
+                }
+            }
+        }
+
+        private void MoveEnemiesTimer_Tick(object sender, EventArgs e)
+        {
+            MoveEnemies();
+        }
+
+        private void MoveEnemies()
+        {
+            for (int i = 0; i < _enemies.Length; i++)
+            {
+                _enemies[i].Visible = true;
+                _enemies[i].Top += _enemySpeed;
+
+                if (_enemies[i].Top > Height)
+                {
+                    _enemies[i].Location = new Point((i + 1) * 47, -50);
+                }
+            }
+        }
+    }
+
+    class ImageEnemy
+    {
+        public ImageEnemy(string imageName, PictureBox enemy)
+        {
+            enemy.Image = Image.FromFile("assets\\" + imageName);
         }
     }
 }

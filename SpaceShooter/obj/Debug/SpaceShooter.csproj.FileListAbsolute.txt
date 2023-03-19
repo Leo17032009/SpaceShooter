@@ -18,3 +18,6 @@ D:\Projects\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.csproj.GenerateReso
 D:\Projects\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.csproj.CoreCompileInputs.cache
 D:\Projects\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.exe
 D:\Projects\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.pdb
+C:\Users\Student\source\repos\SpaceShooter\SpaceShooter\obj\Debug\Interop.MediaPlayer.dll
+C:\Users\Student\source\repos\SpaceShooter\SpaceShooter\obj\Debug\Interop.WMPLib.dll
+C:\Users\Student\source\repos\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.csproj.ResolveComReference.cache

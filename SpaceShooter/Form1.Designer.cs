@@ -36,6 +36,8 @@
             this.DownMoveTimer = new System.Windows.Forms.Timer(this.components);
             this.LeftMoveTimer = new System.Windows.Forms.Timer(this.components);
             this.RightMoveTimer = new System.Windows.Forms.Timer(this.components);
+            this.MoveMunitionsTimer = new System.Windows.Forms.Timer(this.components);
+            this.MoveEnemiesTimer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.Player)).BeginInit();
             this.SuspendLayout();
             // 
@@ -49,10 +51,9 @@
             // 
             this.Player.BackColor = System.Drawing.Color.Transparent;
             this.Player.Image = global::SpaceShooter.Properties.Resources.player;
-            this.Player.Location = new System.Drawing.Point(344, 149);
-            this.Player.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Player.Location = new System.Drawing.Point(229, 97);
             this.Player.Name = "Player";
-            this.Player.Size = new System.Drawing.Size(38, 38);
+            this.Player.Size = new System.Drawing.Size(25, 25);
             this.Player.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.Player.TabIndex = 0;
             this.Player.TabStop = false;
@@ -77,19 +78,29 @@
             this.RightMoveTimer.Interval = 5;
             this.RightMoveTimer.Tick += new System.EventHandler(this.RightMoveTimer_Tick);
             // 
+            // MoveMunitionsTimer
+            // 
+            this.MoveMunitionsTimer.Enabled = true;
+            this.MoveMunitionsTimer.Interval = 20;
+            this.MoveMunitionsTimer.Tick += new System.EventHandler(this.MoveMunitionsTimer_Tick);
+            // 
+            // MoveEnemiesTimer
+            // 
+            this.MoveEnemiesTimer.Enabled = true;
+            this.MoveEnemiesTimer.Tick += new System.EventHandler(this.MoveEnemiesTimer_Tick);
+            // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkBlue;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.ClientSize = new System.Drawing.Size(774, 720);
+            this.ClientSize = new System.Drawing.Size(520, 479);
             this.Controls.Add(this.Player);
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.MaximumSize = new System.Drawing.Size(796, 776);
-            this.MinimumSize = new System.Drawing.Size(796, 776);
+            this.MaximumSize = new System.Drawing.Size(536, 518);
+            this.MinimumSize = new System.Drawing.Size(536, 518);
             this.Name = "Form1";
             this.Text = "Space Shooter";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -108,6 +119,8 @@
         private System.Windows.Forms.Timer DownMoveTimer;
         private System.Windows.Forms.Timer LeftMoveTimer;
         private System.Windows.Forms.Timer RightMoveTimer;
+        private System.Windows.Forms.Timer MoveMunitionsTimer;
+        private System.Windows.Forms.Timer MoveEnemiesTimer;
     }
 }
 
