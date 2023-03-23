@@ -34,10 +34,12 @@ namespace SpaceShooter
             _munitionSpeed = 20; //Иницилизируем скорость боеприпаса = 20
             _enemySpeed = 5;
 
+            BackgroundImage = Image.FromFile("assets\\BackgroundImage.jpg"); //Фон = изображению космоса
+
             Image munition = Image.FromFile("assets\\munition.png"); //Изображение боеприса = изображению munition.png
 
             _munitions = new PictureBox[3]; //Три вида изображений боеприпасов
-            _enemies = new PictureBox[10];
+            _enemies = new PictureBox[10]; //Десять врагов
 
             _backgroundSound = new WindowsMediaPlayer(); //Иницилизируем звук игры
             _shootSound = new WindowsMediaPlayer(); //Иницилизируем звук выстрела 
@@ -60,7 +62,7 @@ namespace SpaceShooter
                 _enemies[i].SizeMode = PictureBoxSizeMode.Zoom; //Изображение подстраивается под размер
                 _enemies[i].Visible = false; //Враг невидим
                 Controls.Add(_enemies[i]); //Добавляем врага
-                _enemies[i].Location = new Point((i + 1) * 47, -50); //Задаём расположение игроку
+                _enemies[i].Location = new Point((i + 1) * 47, -150); //Задаём расположение игроку
             }
 
             ImageEnemy enemy1 = new ImageEnemy("Enemy4.png", _enemies[0]); //У первого врага будет изображение 4
@@ -83,7 +85,7 @@ namespace SpaceShooter
                 _munitions[i].Image = munition; //Устанавливаем изображение боеприпасу
                 _munitions[i].SizeMode = PictureBoxSizeMode.Zoom; //Изображение боеприпаса будет подстраиваться под размер
                 _munitions[i].BorderStyle = BorderStyle.None; //У границ не будет стиля
-                _munitions[i].BackColor = Color.White;
+                _munitions[i].BackColor = Color.White; //Цфет фона пули - бк=елый
                 Controls.Add(_munitions[i]); //Добавляем боеприпас на экран
             }
         }
@@ -221,12 +223,18 @@ namespace SpaceShooter
         {
             for (int i = 0; i < _enemies.Length; i++) //Пока i меньше количества врагов
             {
+                if (_enemies[i].Location.Y >= 0) //Если враг в зоне видимости
+                {
+                    BackgroundImage = null; //У фона нет изображения
+                }
+
                 _enemies[i].Visible = true; //Делаем врага видимым
                 _enemies[i].Top += _enemySpeed; //Отдаляем врага от верха экрана
 
                 if (_enemies[i].Top > Height) //Если враг находится дальше длины экрана
                 {
-                    _enemies[i].Location = new Point((i + 1) * 47, -50); //Меняем его положение
+                    BackgroundImage = Image.FromFile("assets\\BackgroundImage.jpg"); //Добавляем фон
+                    _enemies[i].Location = new Point((i + 1) * 47, -100); //Меняем его положение
                 }
             }
         }
