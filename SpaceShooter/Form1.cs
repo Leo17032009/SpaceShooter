@@ -45,7 +45,7 @@ namespace SpaceShooter
             _shootSound = new WindowsMediaPlayer(); //Иницилизируем звук выстрела 
             _explosionSound = new WindowsMediaPlayer(); //Иницилизируем звук разрыва снаряда
 
-            _backgroundSound.URL = "songs\\GameSound.mp3"; //Музыка будет браться из файла
+            _backgroundSound.URL = "songs\\GameSong.mp3"; //Музыка будет браться из файла
             _shootSound.URL = "songs\\shoot.mp3"; //Берём музыку из файла и присваиваем её звуку выстрела
             _explosionSound.URL = "songs\\boom.mp3"; //Указываем путь до файла, из которого будет браться музыка
 
