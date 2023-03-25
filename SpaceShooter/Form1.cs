@@ -14,11 +14,17 @@ namespace SpaceShooter
         private PictureBox[] _stars; //Создаём приватное поле со звёздами
         private PictureBox[] _munitions; //Создаём приватное поле с изображениями боеприпасов
         private PictureBox[] _enemies; //Создаём приватное поле с врагами
+        private PictureBox[] _enemiesMunitions;
         private int _enemySpeed; //Создаём приватное поле со скоростью врагов
         private int _backgroundSpeed; //Создаём приватное поле со скоростью звёзд 
         private int _playerSpeed; //Создаём приватное поле со скоростью  игрока
         private int _munitionSpeed; //Создаём приватное поле со скоростью боеприпаса
         private int _enemiesMunitionSpeed; //Создаём приватное поле со скоростью снарядов врага
+        private int _score;
+        private int _level;
+        private int _difficulty;
+        private bool _isPause;
+        private bool _isGameOver;
 
         public Form1()
         {
@@ -27,8 +33,12 @@ namespace SpaceShooter
 
         private void Form1_Load(object sender, EventArgs e) //Выполняется при загрузке формы
         {
+            _isPause = false;
+            _isGameOver = false;
+            _score = 0;
+            _level = 1;
+            _difficulty = 9;
             _backgroundSpeed = 4; //Иницилизируем скорость звёзд = 4
-            _stars = new PictureBox[20]; //Иницилизируем массив со звёздами = 20
             _random = new Random(); //Иницилизируем Рандом
             _playerSpeed = 5; //Иницилизируем скорость игрока = 5
             _munitionSpeed = 20; //Иницилизируем скорость боеприпаса = 20
@@ -38,8 +48,10 @@ namespace SpaceShooter
 
             Image munition = Image.FromFile("assets\\munition.png"); //Изображение боеприса = изображению munition.png
 
+            _stars = new PictureBox[20]; //Иницилизируем массив со звёздами = 20
             _munitions = new PictureBox[3]; //Три вида изображений боеприпасов
             _enemies = new PictureBox[10]; //Десять врагов
+            _enemiesMunitions = new PictureBox[10];
 
             _backgroundSound = new WindowsMediaPlayer(); //Иницилизируем звук игры
             _shootSound = new WindowsMediaPlayer(); //Иницилизируем звук выстрела 
@@ -78,6 +90,20 @@ namespace SpaceShooter
 
             AddStars(_stars, _random); //Запускаем функцию с принимаемыми значениями звёзды и Рандом
 
+            for (int i = 0; i < _enemiesMunitions.Length; i++)
+            {
+                int randomEnemy;
+
+                _enemiesMunitions[i] = new PictureBox();
+                _enemiesMunitions[i].Size = new Size(2, 25);
+                _enemiesMunitions[i].Visible = false;
+                _enemiesMunitions[i].BackColor = Color.Yellow;
+
+                randomEnemy = _random.Next(0, _enemies.Length);
+                _enemiesMunitions[i].Location = new Point(_enemies[randomEnemy].Location.X, _enemies[randomEnemy].Location.Y - 20);
+                Controls.Add(_enemiesMunitions[i]);
+            }
+
             for (int i = 0; i < _munitions.Length; i++) //Пока i меньше боеприпасов
             {
                 _munitions[i] = new PictureBox(); //Боеприпас - изображение
@@ -85,7 +111,7 @@ namespace SpaceShooter
                 _munitions[i].Image = munition; //Устанавливаем изображение боеприпасу
                 _munitions[i].SizeMode = PictureBoxSizeMode.Zoom; //Изображение боеприпаса будет подстраиваться под размер
                 _munitions[i].BorderStyle = BorderStyle.None; //У границ не будет стиля
-                _munitions[i].BackColor = Color.White; //Цфет фона пули - бк=елый
+                _munitions[i].BackColor = Color.White; //Цвет фона пули - белый
                 Controls.Add(_munitions[i]); //Добавляем боеприпас на экран
             }
         }
@@ -237,6 +263,84 @@ namespace SpaceShooter
                     _enemies[i].Location = new Point((i + 1) * 47, -100); //Меняем его положение
                 }
             }
+        }
+
+        private void CollisionEnemy()
+        {
+
+        }
+
+        private void CollisionWithEnemiesMunition()
+        {
+            for (int i = 0; i < _enemiesMunitions.Length; i++)
+            {
+                if (_enemiesMunitions[i].Bounds.IntersectsWith(Player.Bounds))
+                {
+                    _enemiesMunitions[i].Visible = false;
+                    _explosionSound.settings.volume = 30;
+                    _explosionSound.controls.play();
+                    Player.Visible = false;
+                    GameOver("Game Over!");
+                }
+            }
+        }
+
+        private void GameOver(string word)
+        {
+            Label.Text = word;
+            Label.Visible = true;
+            RestartButton.Visible = true;
+            ExitButton.Visible = true;
+
+            StopTimers();
+        }
+
+        private void StopTimers()
+        {
+            MoveBackgroundTimer.Stop();
+            MoveEnemiesTimer.Stop();
+            MoveMunitionsTimer.Stop();
+            EnemiesMunitionTimer.Stop();
+        }
+
+        private void StartTimers()
+        {
+            MoveBackgroundTimer.Start();
+            MoveEnemiesTimer.Start();
+            MoveMunitionsTimer.Start();
+            EnemiesMunitionTimer.Start();
+        }
+
+        private void EnemiesMunitionTimer_Tick(object sender, EventArgs e)
+        {
+            for (int i = 0; i < _enemiesMunitions.Length - _difficulty; i++)
+            {
+                if (_enemiesMunitions[i].Top < Height)
+                {
+                    _enemiesMunitions[i].Visible = true;
+                    _enemiesMunitions[i].Top += _enemiesMunitionSpeed;
+                    CollisionWithEnemiesMunition();
+                }
+                else
+                {
+                    _enemiesMunitions[i].Visible = false;
+                    int randomEnemy = _random.Next(0, _enemies.Length);
+                    _enemiesMunitions[i].Location = new Point(_enemies[randomEnemy].Location.X + 20, _enemies[randomEnemy].Location.Y + 20);
+                    Controls.Add(_enemiesMunitions[i]);
+                }
+            }
+        }
+
+        private void RestartButton_Click(object sender, EventArgs e)
+        {
+            Controls.Clear();
+            InitializeComponent();
+            Form1_Load(sender, e);
+        }
+
+        private void ExitButton_Click(object sender, EventArgs e)
+        {
+            Environment.Exit(0);
         }
     }
 
