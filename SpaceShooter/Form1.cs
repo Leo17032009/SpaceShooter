@@ -50,7 +50,7 @@ namespace SpaceShooter
             _explosionSound.URL = "songs\\boom.mp3"; //Указываем путь до файла, из которого будет браться музыка
 
             _backgroundSound.settings.setMode("loop", true); //Звук игры будет играть постоянно
-            _backgroundSound.settings.volume = 7; //Звук игры = 5 сила громкости
+            _backgroundSound.settings.volume = 7; //Звук игры = 7 сила громкости
             _shootSound.settings.volume = 1; //Звук выстрела = 1 сила громкости
             _explosionSound.settings.volume = 6; //Звук разрыва снаряда = 6 сила громкости
 
