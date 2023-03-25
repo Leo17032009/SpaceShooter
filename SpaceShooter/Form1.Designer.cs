@@ -42,6 +42,8 @@
             this.Label = new System.Windows.Forms.Label();
             this.RestartButton = new System.Windows.Forms.Button();
             this.ExitButton = new System.Windows.Forms.Button();
+            this.ScoreCount = new System.Windows.Forms.Label();
+            this.LevelCount = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.Player)).BeginInit();
             this.SuspendLayout();
             // 
@@ -55,9 +57,10 @@
             // 
             this.Player.BackColor = System.Drawing.Color.Transparent;
             this.Player.Image = global::SpaceShooter.Properties.Resources.player;
-            this.Player.Location = new System.Drawing.Point(229, 97);
+            this.Player.Location = new System.Drawing.Point(344, 149);
+            this.Player.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Player.Name = "Player";
-            this.Player.Size = new System.Drawing.Size(25, 25);
+            this.Player.Size = new System.Drawing.Size(38, 38);
             this.Player.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.Player.TabIndex = 0;
             this.Player.TabStop = false;
@@ -104,43 +107,75 @@
             this.Label.AutoSize = true;
             this.Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F);
             this.Label.ForeColor = System.Drawing.Color.White;
-            this.Label.Location = new System.Drawing.Point(171, 158);
+            this.Label.Location = new System.Drawing.Point(256, 243);
+            this.Label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.Label.Name = "Label";
-            this.Label.Size = new System.Drawing.Size(152, 55);
+            this.Label.Size = new System.Drawing.Size(229, 82);
             this.Label.TabIndex = 1;
             this.Label.Text = "label1";
+            this.Label.Visible = false;
             // 
             // RestartButton
             // 
             this.RestartButton.BackColor = System.Drawing.Color.DodgerBlue;
             this.RestartButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F);
             this.RestartButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.RestartButton.Location = new System.Drawing.Point(151, 216);
+            this.RestartButton.Location = new System.Drawing.Point(226, 332);
+            this.RestartButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.RestartButton.Name = "RestartButton";
-            this.RestartButton.Size = new System.Drawing.Size(193, 61);
+            this.RestartButton.Size = new System.Drawing.Size(290, 94);
             this.RestartButton.TabIndex = 2;
             this.RestartButton.Text = "Restart";
             this.RestartButton.UseVisualStyleBackColor = false;
+            this.RestartButton.Visible = false;
             this.RestartButton.Click += new System.EventHandler(this.RestartButton_Click);
             // 
             // ExitButton
             // 
             this.ExitButton.BackColor = System.Drawing.Color.DodgerBlue;
             this.ExitButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F);
-            this.ExitButton.Location = new System.Drawing.Point(151, 303);
+            this.ExitButton.Location = new System.Drawing.Point(226, 466);
+            this.ExitButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.ExitButton.Name = "ExitButton";
-            this.ExitButton.Size = new System.Drawing.Size(193, 61);
+            this.ExitButton.Size = new System.Drawing.Size(290, 94);
             this.ExitButton.TabIndex = 3;
             this.ExitButton.Text = "Exit";
             this.ExitButton.UseVisualStyleBackColor = false;
+            this.ExitButton.Visible = false;
             this.ExitButton.Click += new System.EventHandler(this.ExitButton_Click);
+            // 
+            // ScoreCount
+            // 
+            this.ScoreCount.AutoSize = true;
+            this.ScoreCount.BackColor = System.Drawing.Color.Transparent;
+            this.ScoreCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
+            this.ScoreCount.ForeColor = System.Drawing.Color.White;
+            this.ScoreCount.Location = new System.Drawing.Point(12, 0);
+            this.ScoreCount.Name = "ScoreCount";
+            this.ScoreCount.Size = new System.Drawing.Size(122, 36);
+            this.ScoreCount.TabIndex = 4;
+            this.ScoreCount.Text = "0 очков";
+            // 
+            // LevelCount
+            // 
+            this.LevelCount.AutoSize = true;
+            this.LevelCount.BackColor = System.Drawing.Color.Transparent;
+            this.LevelCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
+            this.LevelCount.ForeColor = System.Drawing.Color.White;
+            this.LevelCount.Location = new System.Drawing.Point(590, 0);
+            this.LevelCount.Name = "LevelCount";
+            this.LevelCount.Size = new System.Drawing.Size(185, 36);
+            this.LevelCount.TabIndex = 5;
+            this.LevelCount.Text = "1-й уровень";
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkBlue;
-            this.ClientSize = new System.Drawing.Size(518, 473);
+            this.ClientSize = new System.Drawing.Size(768, 702);
+            this.Controls.Add(this.LevelCount);
+            this.Controls.Add(this.ScoreCount);
             this.Controls.Add(this.ExitButton);
             this.Controls.Add(this.RestartButton);
             this.Controls.Add(this.Label);
@@ -148,8 +183,9 @@
             this.Cursor = System.Windows.Forms.Cursors.Default;
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximumSize = new System.Drawing.Size(534, 512);
-            this.MinimumSize = new System.Drawing.Size(534, 512);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.MaximumSize = new System.Drawing.Size(790, 758);
+            this.MinimumSize = new System.Drawing.Size(790, 758);
             this.Name = "Form1";
             this.Text = "Space Shooter";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -175,6 +211,8 @@
         private System.Windows.Forms.Label Label;
         private System.Windows.Forms.Button RestartButton;
         private System.Windows.Forms.Button ExitButton;
+        private System.Windows.Forms.Label ScoreCount;
+        private System.Windows.Forms.Label LevelCount;
     }
 }
 

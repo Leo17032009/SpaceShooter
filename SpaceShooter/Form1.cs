@@ -145,7 +145,7 @@ namespace SpaceShooter
             }
         }
 
-        void SortStars (int minItem, PictureBox[] stars, int backgroundSpeed) //Сортировка звёзд
+        void SortStars(int minItem, PictureBox[] stars, int backgroundSpeed) //Сортировка звёзд
         {
             for (int i = minItem;  i < stars.Length; i++) //Пока меньше длины массива со звёздами
             {
@@ -192,24 +192,28 @@ namespace SpaceShooter
 
         private void Form1_KeyDown(object sender, KeyEventArgs e) //Событие, происходящее при нажатии на кнопку
         {
-            if (e.KeyCode == Keys.Right || e.KeyCode == Keys.D) //Если нажата стрелка вправо или D
+            if (_isPause == false)
             {
-                RightMoveTimer.Start(); //Запускаем таймер
-            }
 
-            if (e.KeyCode == Keys.Left || e.KeyCode == Keys.A) //Если нажата стрелка влево или A
-            {
-                LeftMoveTimer.Start(); //Запускаем таймер
-            }
+                if (e.KeyCode == Keys.Right || e.KeyCode == Keys.D) //Если нажата стрелка вправо или D
+                {
+                    RightMoveTimer.Start(); //Запускаем таймер
+                }
 
-            if (e.KeyCode == Keys.Down || e.KeyCode == Keys.S) //Если нажата стрелка вниз или S
-            {
-                DownMoveTimer.Start(); //Запускаем таймер
-            }
+                if (e.KeyCode == Keys.Left || e.KeyCode == Keys.A) //Если нажата стрелка влево или A
+                {
+                    LeftMoveTimer.Start(); //Запускаем таймер
+                }
 
-            if (e.KeyCode == Keys.Up || e.KeyCode == Keys.W) //Если нажата стрелка вверх или W
-            {
-                UpMoveTimer.Start(); //Запускаем таймер
+                if (e.KeyCode == Keys.Down || e.KeyCode == Keys.S) //Если нажата стрелка вниз или S
+                {
+                    DownMoveTimer.Start(); //Запускаем таймер
+                }
+
+                if (e.KeyCode == Keys.Up || e.KeyCode == Keys.W) //Если нажата стрелка вверх или W
+                {
+                    UpMoveTimer.Start(); //Запускаем таймер
+                }
             }
         }
 
@@ -219,6 +223,30 @@ namespace SpaceShooter
             LeftMoveTimer.Stop(); //Останавливаем таймер
             DownMoveTimer.Stop(); //Останавливаем таймер
             UpMoveTimer.Stop(); //Останавливаем таймер
+
+            if (e.KeyCode == Keys.Space)
+            {
+                if (_isGameOver == false)
+                {
+                    if (_isPause)
+                    {
+                        StartTimers();
+                        Label.Visible = false;
+                        _backgroundSound.controls.play();
+                        _isPause = false;
+                    }
+                    else
+                    {
+                        Label.Text = "Paused";
+                        Label.Visible = true;
+                        ExitButton.Visible = true;
+                        RestartButton.Visible = true;
+                        _backgroundSound.controls.pause();
+                        StopTimers();
+                        _isPause = true;
+                    }
+                }
+            }
         }
 
         private void MoveMunitionsTimer_Tick(object sender, EventArgs e) //Таймер для снарядов
@@ -231,6 +259,8 @@ namespace SpaceShooter
                 {
                     _munitions[i].Visible = true; //Делаем его видимым
                     _munitions[i].Top -= _munitionSpeed; //Приближаем к верху экрана
+
+                    CollisionEnemy();
                 }
                 else //Иначе
                 {
@@ -267,7 +297,78 @@ namespace SpaceShooter
 
         private void CollisionEnemy()
         {
+            string[] scores = new string[] { "очков", "очко", "очка" };
+            string inclinedScore;
 
+            for (int i = 0; i < _enemies.Length; i++)
+            {
+                for (int j = 0; j < _munitions.Length; j++)
+                {
+                    if (_munitions[j].Bounds.IntersectsWith(_enemies[i].Bounds))
+                    {
+                        _explosionSound.controls.play();
+                       ++_score;
+                        inclinedScore = InclineScore(scores, _score);
+                        ScoreCount.Text = _score.ToString() + " " + inclinedScore;
+
+                        if (_score % 30 == 0)
+                        {
+                            ++_level;
+                            LevelCount.Text = _level.ToString() + "-й уровень";
+                        }
+
+                        if (_level < 10)
+                        {
+                            --_difficulty;
+                            ++_enemySpeed;
+                            ++_enemiesMunitionSpeed;
+                        }
+                        else
+                        {
+                            GameOver("Nice Down!");
+                        }
+
+                        _enemies[i].Location = new Point((i + 1) * 35, -50);
+
+                        if (Player.Bounds.IntersectsWith(_enemies[i].Bounds))
+                        {
+                            _explosionSound.settings.volume = 30;
+                            _explosionSound.controls.play();
+                            Player.Visible = false;
+                            _enemies[i].Visible = false;
+                            GameOver("Game Over!");
+                        }
+                    }
+                }
+            }
+        }
+
+        private static string InclineScore(string[] scores, int score)
+        {
+
+            if (score % 100 == 11 || score % 100 == 12 || score % 100 == 13 || score % 100 == 14)
+            {
+                return scores[0];
+            }
+
+                switch (score % 10)
+                {
+                    case 0:
+                    case 5:
+                    case 6:
+                    case 7:
+                    case 8:
+                    case 9:
+                        return scores[0];
+                    case 1:
+                        return scores[1];
+                    case 2:
+                    case 3:
+                    case 4:
+                        return scores[2];
+                }
+
+            return null;
         }
 
         private void CollisionWithEnemiesMunition() //Коллизия снаряда врага с игроком
@@ -290,8 +391,8 @@ namespace SpaceShooter
             Label.Text = word; //Надпись равняется тексту
             Label.Visible = true; //Делаем надпись видимой
             RestartButton.Visible = true; //Кнопка перезапуска видима
-            ExitButton.Visible = true; //Кнопка выыхода видима
-
+            ExitButton.Visible = true; //Кнопка выхода видима
+            _backgroundSound.controls.pause(); //Ставим музыку на паузу
             StopTimers(); //Останавливаем таймеры
         }
 
@@ -313,20 +414,27 @@ namespace SpaceShooter
 
         private void EnemiesMunitionTimer_Tick(object sender, EventArgs e)
         {
-            for (int i = 0; i < _enemiesMunitions.Length - _difficulty; i++) //Пока i меньше разности снарядов врага и сложности
+            for (int i = 0; i < (_enemiesMunitions.Length - _difficulty); i++) //Пока i меньше разности снарядов врага и сложности
             {
-                if (_enemiesMunitions[i].Top < Height) //Если снаряд врага в зоне видимости
+                try
                 {
-                    _enemiesMunitions[i].Visible = true; //Делаем его видимым
-                    _enemiesMunitions[i].Top += _enemiesMunitionSpeed; //Отдаляем снаряд от верха экрана
-                    CollisionWithEnemiesMunition(); //Запускаем метод
+                    if (_enemiesMunitions[i].Top < Height) //Если снаряд врага в зоне видимости
+                    {
+                        _enemiesMunitions[i].Visible = true; //Делаем его видимым
+                        _enemiesMunitions[i].Top += _enemiesMunitionSpeed; //Отдаляем снаряд от верха экрана
+                        CollisionWithEnemiesMunition(); //Запускаем метод
+                    }
+                    else //Иначе
+                    {
+                        _enemiesMunitions[i].Visible = false; //Делаем снаряд невидимым
+                        int randomEnemy = _random.Next(0, _enemies.Length); //Рандомный враг равен случайному врагу
+                        _enemiesMunitions[i].Location = new Point(_enemies[randomEnemy].Location.X + 20, _enemies[randomEnemy].Location.Y + 20); //Задаём расположение снаряду
+                        Controls.Add(_enemiesMunitions[i]); //Добавляем снаряд на экран
+                    }
                 }
-                else //Иначе
+                catch
                 {
-                    _enemiesMunitions[i].Visible = false; //Делаем снаряд невидимым
-                    int randomEnemy = _random.Next(0, _enemies.Length); //Рандомный враг равен случайному врагу
-                    _enemiesMunitions[i].Location = new Point(_enemies[randomEnemy].Location.X + 20, _enemies[randomEnemy].Location.Y + 20); //Задаём расположение снаряду
-                    Controls.Add(_enemiesMunitions[i]); //Добавляем снаряд на экран
+
                 }
             }
         }
