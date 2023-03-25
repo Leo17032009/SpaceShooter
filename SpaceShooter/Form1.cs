@@ -20,11 +20,11 @@ namespace SpaceShooter
         private int _playerSpeed; //Создаём приватное поле со скоростью  игрока
         private int _munitionSpeed; //Создаём приватное поле со скоростью боеприпаса
         private int _enemiesMunitionSpeed; //Создаём приватное поле со скоростью снарядов врага
-        private int _score;
-        private int _level;
-        private int _difficulty;
-        private bool _isPause;
-        private bool _isGameOver;
+        private int _score; //Создаём приватное поле со счётом
+        private int _level; //Создаём приватное поле с уровнем
+        private int _difficulty; //Создаём приватное поле с уровнем сложности
+        private bool _isPause; //Создаём приватное поле с паузой
+        private bool _isGameOver; //Создаём приватное поле с проигрышом
 
         public Form1()
         {
@@ -33,16 +33,16 @@ namespace SpaceShooter
 
         private void Form1_Load(object sender, EventArgs e) //Выполняется при загрузке формы
         {
-            _isPause = false;
-            _isGameOver = false;
-            _score = 0;
-            _level = 1;
-            _difficulty = 9;
+            _isPause = false; //Нет паузы
+            _isGameOver = false; //Нет проигрыша
+            _score = 0; //Счёт = 0
+            _level = 1; //Первый уровень
+            _difficulty = 9; //Девятый уровень сложности
             _backgroundSpeed = 4; //Иницилизируем скорость звёзд = 4
             _random = new Random(); //Иницилизируем Рандом
             _playerSpeed = 5; //Иницилизируем скорость игрока = 5
             _munitionSpeed = 20; //Иницилизируем скорость боеприпаса = 20
-            _enemySpeed = 5;
+            _enemySpeed = 5; //Скорость врага = 5
 
             BackgroundImage = Image.FromFile("assets\\BackgroundImage.jpg"); //Фон = изображению космоса
 
@@ -51,7 +51,7 @@ namespace SpaceShooter
             _stars = new PictureBox[20]; //Иницилизируем массив со звёздами = 20
             _munitions = new PictureBox[3]; //Три вида изображений боеприпасов
             _enemies = new PictureBox[10]; //Десять врагов
-            _enemiesMunitions = new PictureBox[10];
+            _enemiesMunitions = new PictureBox[10]; //Десять снарядов врага
 
             _backgroundSound = new WindowsMediaPlayer(); //Иницилизируем звук игры
             _shootSound = new WindowsMediaPlayer(); //Иницилизируем звук выстрела 
@@ -90,18 +90,18 @@ namespace SpaceShooter
 
             AddStars(_stars, _random); //Запускаем функцию с принимаемыми значениями звёзды и Рандом
 
-            for (int i = 0; i < _enemiesMunitions.Length; i++)
+            for (int i = 0; i < _enemiesMunitions.Length; i++) //Пока i меньше снарядов врага
             {
-                int randomEnemy;
+                int randomEnemy; //Переменная с рандомным врагом
 
-                _enemiesMunitions[i] = new PictureBox();
-                _enemiesMunitions[i].Size = new Size(2, 25);
-                _enemiesMunitions[i].Visible = false;
-                _enemiesMunitions[i].BackColor = Color.Yellow;
+                _enemiesMunitions[i] = new PictureBox(); //Снаряд врага = изображение
+                _enemiesMunitions[i].Size = new Size(2, 25); //Размер снаряда врага 2X25
+                _enemiesMunitions[i].Visible = false; //Снаряд невидим
+                _enemiesMunitions[i].BackColor = Color.Yellow; //Цвет - жёлтый
 
-                randomEnemy = _random.Next(0, _enemies.Length);
-                _enemiesMunitions[i].Location = new Point(_enemies[randomEnemy].Location.X, _enemies[randomEnemy].Location.Y - 20);
-                Controls.Add(_enemiesMunitions[i]);
+                randomEnemy = _random.Next(0, _enemies.Length); //Рандомный враг равен сллучайному врагу
+                _enemiesMunitions[i].Location = new Point(_enemies[randomEnemy].Location.X, _enemies[randomEnemy].Location.Y - 20); //Задаём расположение снаряду
+                Controls.Add(_enemiesMunitions[i]); //Добавляем снаряд на экран
             }
 
             for (int i = 0; i < _munitions.Length; i++) //Пока i меньше боеприпасов
@@ -270,77 +270,77 @@ namespace SpaceShooter
 
         }
 
-        private void CollisionWithEnemiesMunition()
+        private void CollisionWithEnemiesMunition() //Коллизия снаряда врага с игроком
         {
-            for (int i = 0; i < _enemiesMunitions.Length; i++)
+            for (int i = 0; i < _enemiesMunitions.Length; i++) //Пока i меньше снарядов врага
             {
-                if (_enemiesMunitions[i].Bounds.IntersectsWith(Player.Bounds))
+                if (_enemiesMunitions[i].Bounds.IntersectsWith(Player.Bounds)) //Если снаряд врага соприкасается с игроком
                 {
-                    _enemiesMunitions[i].Visible = false;
-                    _explosionSound.settings.volume = 30;
-                    _explosionSound.controls.play();
-                    Player.Visible = false;
-                    GameOver("Game Over!");
+                    _enemiesMunitions[i].Visible = false; //Делаем снапяд невидимым
+                    _explosionSound.settings.volume = 30; //Звук разрыва = 30
+                    _explosionSound.controls.play(); //Проигрывается звук разрыва
+                    Player.Visible = false; //Игрок становится невидимым
+                    GameOver("Game Over!"); //Запускаем метод Проигрыша
                 }
             }
         }
 
-        private void GameOver(string word)
+        private void GameOver(string word) //Метод Проигрыша принимает текст
         {
-            Label.Text = word;
-            Label.Visible = true;
-            RestartButton.Visible = true;
-            ExitButton.Visible = true;
+            Label.Text = word; //Надпись равняется тексту
+            Label.Visible = true; //Делаем надпись видимой
+            RestartButton.Visible = true; //Кнопка перезапуска видима
+            ExitButton.Visible = true; //Кнопка выыхода видима
 
-            StopTimers();
+            StopTimers(); //Останавливаем таймеры
         }
 
         private void StopTimers()
         {
-            MoveBackgroundTimer.Stop();
-            MoveEnemiesTimer.Stop();
-            MoveMunitionsTimer.Stop();
-            EnemiesMunitionTimer.Stop();
+            MoveBackgroundTimer.Stop(); //Останавливаем таймер
+            MoveEnemiesTimer.Stop(); //Останавливаем таймер
+            MoveMunitionsTimer.Stop(); //Останавливаем таймер
+            EnemiesMunitionTimer.Stop(); //Останавливаем таймер
         }
 
         private void StartTimers()
         {
-            MoveBackgroundTimer.Start();
-            MoveEnemiesTimer.Start();
-            MoveMunitionsTimer.Start();
-            EnemiesMunitionTimer.Start();
+            MoveBackgroundTimer.Start(); //Запускаем таймер
+            MoveEnemiesTimer.Start(); //Запускаем таймер
+            MoveMunitionsTimer.Start(); //Запускаем таймер
+            EnemiesMunitionTimer.Start(); //Запускаем таймер
         }
 
         private void EnemiesMunitionTimer_Tick(object sender, EventArgs e)
         {
-            for (int i = 0; i < _enemiesMunitions.Length - _difficulty; i++)
+            for (int i = 0; i < _enemiesMunitions.Length - _difficulty; i++) //Пока i меньше разности снарядов врага и сложности
             {
-                if (_enemiesMunitions[i].Top < Height)
+                if (_enemiesMunitions[i].Top < Height) //Если снаряд врага в зоне видимости
                 {
-                    _enemiesMunitions[i].Visible = true;
-                    _enemiesMunitions[i].Top += _enemiesMunitionSpeed;
-                    CollisionWithEnemiesMunition();
+                    _enemiesMunitions[i].Visible = true; //Делаем его видимым
+                    _enemiesMunitions[i].Top += _enemiesMunitionSpeed; //Отдаляем снаряд от верха экрана
+                    CollisionWithEnemiesMunition(); //Запускаем метод
                 }
-                else
+                else //Иначе
                 {
-                    _enemiesMunitions[i].Visible = false;
-                    int randomEnemy = _random.Next(0, _enemies.Length);
-                    _enemiesMunitions[i].Location = new Point(_enemies[randomEnemy].Location.X + 20, _enemies[randomEnemy].Location.Y + 20);
-                    Controls.Add(_enemiesMunitions[i]);
+                    _enemiesMunitions[i].Visible = false; //Делаем снаряд невидимым
+                    int randomEnemy = _random.Next(0, _enemies.Length); //Рандомный враг равен случайному врагу
+                    _enemiesMunitions[i].Location = new Point(_enemies[randomEnemy].Location.X + 20, _enemies[randomEnemy].Location.Y + 20); //Задаём расположение снаряду
+                    Controls.Add(_enemiesMunitions[i]); //Добавляем снаряд на экран
                 }
             }
         }
 
-        private void RestartButton_Click(object sender, EventArgs e)
+        private void RestartButton_Click(object sender, EventArgs e) //Если нажата кнопка перезапуска
         {
-            Controls.Clear();
-            InitializeComponent();
-            Form1_Load(sender, e);
+            Controls.Clear(); //Отчищаем экран от добавленных объектов
+            InitializeComponent(); //Иницилизируем объекты
+            Form1_Load(sender, e); //Запускаем метод
         }
 
-        private void ExitButton_Click(object sender, EventArgs e)
+        private void ExitButton_Click(object sender, EventArgs e) //Если нажата кнопка выхода
         {
-            Environment.Exit(0);
+            Environment.Exit(0); //Выходим
         }
     }
 
