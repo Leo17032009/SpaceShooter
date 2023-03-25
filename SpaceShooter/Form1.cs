@@ -232,6 +232,8 @@ namespace SpaceShooter
                     {
                         StartTimers();
                         Label.Visible = false;
+                        ExitButton.Visible = false;
+                        RestartButton.Visible = false;
                         _backgroundSound.controls.play();
                         _isPause = false;
                     }
