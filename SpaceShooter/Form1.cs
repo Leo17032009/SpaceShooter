@@ -194,7 +194,7 @@ namespace SpaceShooter
 
         private void Form1_KeyDown(object sender, KeyEventArgs e) //Событие, происходящее при нажатии на кнопку
         {
-            if (_isPause == false)
+            if (_isPause == false) //Если пауза отключена
             {
 
                 if (e.KeyCode == Keys.Right || e.KeyCode == Keys.D) //Если нажата стрелка вправо или D
@@ -226,29 +226,29 @@ namespace SpaceShooter
             DownMoveTimer.Stop(); //Останавливаем таймер
             UpMoveTimer.Stop(); //Останавливаем таймер
 
-            if (e.KeyCode == Keys.Space)
+            if (e.KeyCode == Keys.Space) //Если нажат пробел
             {
-                if (_isGameOver == false)
+                if (_isGameOver == false) //Если игрок не проиграл
                 {
-                    if (_isPause)
+                    if (_isPause) //Если на паузе
                     {
-                        StartTimers();
-                        Label.Visible = false;
-                        ExitButton.Visible = false;
-                        RestartButton.Visible = false;
-                        _backgroundSound.controls.play();
-                        _isPause = false;
+                        StartTimers(); //Запускаем метод
+                        Label.Visible = false; //Делаем текст невидимым
+                        ExitButton.Visible = false; //Делаем кнопку выхода невидимой
+                        RestartButton.Visible = false; //Делаем кнопку рестарта невидимой
+                        _backgroundSound.controls.play(); //Запускаем музыку
+                        _isPause = false; //Отключаем паузу
                     }
-                    else
+                    else //Иначе
                     {
-                        StopTimers();
-                        Label.Location = new Point(153, 150);
-                        Label.Text = "Paused";
-                        Label.Visible = true;
-                        ExitButton.Visible = true;
-                        RestartButton.Visible = true;
-                        _backgroundSound.controls.pause();
-                        _isPause = true;
+                        StopTimers(); //Останавливаем таймеры
+                        Label.Location = new Point(153, 150); //Указываем расположение
+                        Label.Text = "Paused"; //Указываем текст
+                        Label.Visible = true; //Делаем видимым надпись
+                        ExitButton.Visible = true; //Кнопка выхода видима
+                        RestartButton.Visible = true; //Кнопка перезапуска видима
+                        _backgroundSound.controls.pause(); //Ставим музыку на паузу
+                        _isPause = true; //Включаем паузу
                     }
                 }
             }
@@ -301,81 +301,81 @@ namespace SpaceShooter
             }
         }
 
-        private void CollisionEnemy()
+        private void CollisionEnemy() //Коллизия врага
         {
-            string inclinedScore;
+            string inclinedScore; //Склонённый счёт
 
-            for (int i = 0; i < _enemies.Length; i++)
+            for (int i = 0; i < _enemies.Length; i++) //Пока i меньше количества врагов
             {
-                for (int j = 0; j < _munitions.Length; j++)
+                for (int j = 0; j < _munitions.Length; j++) //Пока j меньше количества снарядов
                 {
-                    if (_munitions[j].Bounds.IntersectsWith(_enemies[i].Bounds))
+                    if (_munitions[j].Bounds.IntersectsWith(_enemies[i].Bounds)) //Если снаряд соприкасается с врагом
                     {
-                        _explosionSound.controls.play();
-                       ++_score;
-                        inclinedScore = InclineScore(_score);
-                        ScoreCount.Text = _score.ToString() + " " + inclinedScore;
+                        _explosionSound.controls.play(); //Играет звук разрыва снаряда
+                       ++_score; //Увеличиваем счёт
+                        inclinedScore = InclineScore(_score); //Запускаем функцию склонения слова
+                        ScoreCount.Text = _score.ToString() + " " + inclinedScore; //Выводим счёт на экран
 
-                        if (_score % 30 == 0)
+                        if (_score % 30 == 0) //Если счёт поделить с остатком на 30 будет ноль
                         {
-                            ++_level;
-                            LevelCount.Text = _level.ToString() + "-й уровень";
+                            ++_level; //Новый уровень
+                            LevelCount.Text = _level.ToString() + "-й уровень"; //Выводим номер уровня
 
-                            if (_level < 10)
+                            if (_level < 10) //Если уовнея меньше 10
                             {
-                                --_difficulty;
-                                ++_enemySpeed;
-                                ++_enemiesMunitionSpeed;
+                                --_difficulty; //Усложняем
+                                ++_enemySpeed; //Ускоряем врагов
+                                ++_enemiesMunitionSpeed; //Ускоряем боеприпасы врага
                             }
-                            else
+                            else //Иначе
                             {
-                                GameOver("Nice Down!");
+                                GameOver("Nice Down!"); //Запускаем метод
                             }
                         }
-
-                        _enemies[i].Location = new Point((i + 1) * 35, -50);
+                        
+                        _enemies[i].Location = new Point((i + 1) * 35, -100); //Задаём расположение врагу
                     }
 
-                    if (Player.Bounds.IntersectsWith(_enemies[i].Bounds))
+                    if (Player.Bounds.IntersectsWith(_enemies[i].Bounds)) //Если игрок сопрекасается с врагом
                     {
-                        _explosionSound.settings.volume = 30;
-                        _explosionSound.controls.play();
-                        Player.Visible = false;
-                        _enemies[i].Visible = false;
-                        GameOver("Game Over!");
+                        _explosionSound.settings.volume = 30; //Звук взрыва = 30
+                        _explosionSound.controls.play(); //Играет звук взрыва
+                        Player.Visible = false; //Игрок становится невидимым
+                        _enemies[i].Visible = false; //Враг становится невидимым
+                        GameOver("Game Over!"); //Запускаем метод
                     }
                 }
             }
         }
 
-        private static string InclineScore(int score)
+        private static string InclineScore(int score) //Функция склонения слова
         {
-            string[] scoresForInclining = new string[] { "очков", "очко", "очка" };
+            string[] scoresForInclining = new string[] { "очков", "очко", "очка" }; //Варианты слова
 
 
-            if (score % 100 == 11 || score % 100 == 12 || score % 100 == 13 || score % 100 == 14)
+            if (score % 100 == 11 || score % 100 == 12 || score % 100 == 13 || score % 100 == 14) //Если счёт поделить на сто с остатком будеи 11, 12, 13 или 14
             {
-                return scoresForInclining[0];
+                return scoresForInclining[0]; //Возвращаем элемент с индексом ноль
             }
             
-                switch (score % 10)
+                switch (score % 10) //Если счёт поделить с остатком на десять
                 {
-                    case 0:
-                    case 5:
-                    case 6:
-                    case 7:
-                    case 8:
-                    case 9:
-                        return scoresForInclining[0];
-                    case 1:
-                        return scoresForInclining[1];
-                    case 2:
-                    case 3:
-                    case 4:
-                        return scoresForInclining[2];
+                    case 0: //Будет 0
+                    case 5: //Будет 5
+                    case 6: //Будет 6
+                    case 7: //Будет 7
+                    case 8: //Будет 8
+                    case 9: //Будет 9
+                        return scoresForInclining[0]; //Возвращаем элемент с индексом ноль
+                    case 1: //Будет 1
+                        return scoresForInclining[1]; //Возвращаем элемент с индексом один
+                    case 2: //Будет 2
+                    case 3: //Будет 3
+                    case 4: //Будет 4
+                        return scoresForInclining[2]; //Возвращаем элемент с индексом 2
                 }
 
-            return null;
+            return null; //Иначе возвращаем null
         }
 
         private void CollisionWithEnemiesMunition() //Коллизия снаряда врага с игроком
@@ -444,10 +444,17 @@ namespace SpaceShooter
         private void RestartButton_Click(object sender, EventArgs e) //Если нажата кнопка перезапуска
         {
             Controls.Clear(); //Отчищаем экран от добавленных объектов
-            GC.Collect();
             InitializeComponent(); //Иницилизируем объекты
             Form1_Load(sender, e); //Запускаем метод
+            //Restart(sender, e);
         }
+
+        /*private void Restart(object sender, EventArgs e)
+        {
+            Controls.Clear();
+            InitializeComponent();
+            Form1_Load(sender, e);
+        }*/
 
         private void ExitButton_Click(object sender, EventArgs e) //Если нажата кнопка выхода
         {
