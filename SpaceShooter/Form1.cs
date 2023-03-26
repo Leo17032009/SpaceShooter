@@ -278,7 +278,7 @@ namespace SpaceShooter
         private void MoveEnemiesTimer_Tick(object sender, EventArgs e) //Таймер показа врагов
         {
             MoveEnemies(); //Запускаем метод
-            CollisionEnemy();
+            CollisionEnemy(); //Запускаем метод
         }
 
         private void MoveEnemies() //Метод показа врагов
@@ -295,7 +295,7 @@ namespace SpaceShooter
 
                 if (_enemies[i].Top > Height) //Если враг находится дальше длины экрана
                 {
-                    BackgroundImage = Image.FromFile("assets\\BackgroundImage.jpg"); //Добавляем фон
+                    //BackgroundImage = Image.FromFile("assets\\BackgroundImage.jpg"); //Добавляем фон
                     _enemies[i].Location = new Point((i + 1) * 47, -100); //Меняем его положение
                 }
             }
@@ -329,7 +329,24 @@ namespace SpaceShooter
                             }
                             else //Иначе
                             {
+
+                                for (int x = 0; x < _enemies.Length; x++) //Пока x меньше длины массива с врагами
+                                {
+                                    _explosionSound.settings.volume = 30; //Звук взрыва = 30
+                                    _explosionSound.controls.play(); //Звук взрыва запускается
+
+                                    if (x < _munitions.Length) //Если x меньше количества снарядов
+                                    {
+                                        Controls.Remove(_munitions[x]); //Удаляем снаряд
+                                    }
+
+                                    Controls.Remove(_enemies[x]); //Удаляем врага
+                                    Controls.Remove(_enemiesMunitions[x]); //Удаляем снаряд врага
+                                }
+
                                 GameOver("Nice Down!"); //Запускаем метод
+                                BackgroundImage = Image.FromFile("assets\\BackgroundImage.jpg"); //Фон = изображению космоса
+
                             }
                         }
                         
@@ -446,6 +463,9 @@ namespace SpaceShooter
             Controls.Clear(); //Отчищаем экран от добавленных объектов
             InitializeComponent(); //Иницилизируем объекты
             Form1_Load(sender, e); //Запускаем метод
+            /*Controls.Clear();
+            InitializeComponent();
+            Form1_Load(sender, e);*/
             //Restart(sender, e);
         }
 
