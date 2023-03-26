@@ -105,9 +105,10 @@
             // Label
             // 
             this.Label.AutoSize = true;
+            this.Label.BackColor = System.Drawing.Color.Transparent;
             this.Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F);
             this.Label.ForeColor = System.Drawing.Color.White;
-            this.Label.Location = new System.Drawing.Point(256, 215);
+            this.Label.Location = new System.Drawing.Point(230, 207);
             this.Label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.Label.Name = "Label";
             this.Label.Size = new System.Drawing.Size(229, 82);

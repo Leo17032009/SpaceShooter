@@ -66,6 +66,8 @@ namespace SpaceShooter
             _shootSound.settings.volume = 1; //Звук выстрела = 1 сила громкости
             _explosionSound.settings.volume = 6; //Звук разрыва снаряда = 6 сила громкости
 
+            Player.Location = new Point(240, 200);
+
             for (int i = 0; i < _enemies.Length; i++) //Пока i меньше количество противников
             {
                 _enemies[i] = new PictureBox(); //Враг = изображение
@@ -239,12 +241,13 @@ namespace SpaceShooter
                     }
                     else
                     {
+                        StopTimers();
+                        Label.Location = new Point(153, 150);
                         Label.Text = "Paused";
                         Label.Visible = true;
                         ExitButton.Visible = true;
                         RestartButton.Visible = true;
                         _backgroundSound.controls.pause();
-                        StopTimers();
                         _isPause = true;
                     }
                 }
@@ -275,6 +278,7 @@ namespace SpaceShooter
         private void MoveEnemiesTimer_Tick(object sender, EventArgs e) //Таймер показа врагов
         {
             MoveEnemies(); //Запускаем метод
+            CollisionEnemy();
         }
 
         private void MoveEnemies() //Метод показа врагов
@@ -299,7 +303,6 @@ namespace SpaceShooter
 
         private void CollisionEnemy()
         {
-            string[] scores = new string[] { "очков", "очко", "очка" };
             string inclinedScore;
 
             for (int i = 0; i < _enemies.Length; i++)
@@ -310,49 +313,51 @@ namespace SpaceShooter
                     {
                         _explosionSound.controls.play();
                        ++_score;
-                        inclinedScore = InclineScore(scores, _score);
+                        inclinedScore = InclineScore(_score);
                         ScoreCount.Text = _score.ToString() + " " + inclinedScore;
 
                         if (_score % 30 == 0)
                         {
                             ++_level;
                             LevelCount.Text = _level.ToString() + "-й уровень";
-                        }
 
-                        if (_level < 10)
-                        {
-                            --_difficulty;
-                            ++_enemySpeed;
-                            ++_enemiesMunitionSpeed;
-                        }
-                        else
-                        {
-                            GameOver("Nice Down!");
+                            if (_level < 10)
+                            {
+                                --_difficulty;
+                                ++_enemySpeed;
+                                ++_enemiesMunitionSpeed;
+                            }
+                            else
+                            {
+                                GameOver("Nice Down!");
+                            }
                         }
 
                         _enemies[i].Location = new Point((i + 1) * 35, -50);
+                    }
 
-                        if (Player.Bounds.IntersectsWith(_enemies[i].Bounds))
-                        {
-                            _explosionSound.settings.volume = 30;
-                            _explosionSound.controls.play();
-                            Player.Visible = false;
-                            _enemies[i].Visible = false;
-                            GameOver("Game Over!");
-                        }
+                    if (Player.Bounds.IntersectsWith(_enemies[i].Bounds))
+                    {
+                        _explosionSound.settings.volume = 30;
+                        _explosionSound.controls.play();
+                        Player.Visible = false;
+                        _enemies[i].Visible = false;
+                        GameOver("Game Over!");
                     }
                 }
             }
         }
 
-        private static string InclineScore(string[] scores, int score)
+        private static string InclineScore(int score)
         {
+            string[] scoresForInclining = new string[] { "очков", "очко", "очка" };
+
 
             if (score % 100 == 11 || score % 100 == 12 || score % 100 == 13 || score % 100 == 14)
             {
-                return scores[0];
+                return scoresForInclining[0];
             }
-
+            
                 switch (score % 10)
                 {
                     case 0:
@@ -361,13 +366,13 @@ namespace SpaceShooter
                     case 7:
                     case 8:
                     case 9:
-                        return scores[0];
+                        return scoresForInclining[0];
                     case 1:
-                        return scores[1];
+                        return scoresForInclining[1];
                     case 2:
                     case 3:
                     case 4:
-                        return scores[2];
+                        return scoresForInclining[2];
                 }
 
             return null;
@@ -391,6 +396,7 @@ namespace SpaceShooter
         private void GameOver(string word) //Метод Проигрыша принимает текст
         {
             Label.Text = word; //Надпись равняется тексту
+            Label.Location = new Point(120, 150);
             Label.Visible = true; //Делаем надпись видимой
             RestartButton.Visible = true; //Кнопка перезапуска видима
             ExitButton.Visible = true; //Кнопка выхода видима
@@ -418,25 +424,19 @@ namespace SpaceShooter
         {
             for (int i = 0; i < (_enemiesMunitions.Length - _difficulty); i++) //Пока i меньше разности снарядов врага и сложности
             {
-                try
-                {
-                    if (_enemiesMunitions[i].Top < Height) //Если снаряд врага в зоне видимости
-                    {
-                        _enemiesMunitions[i].Visible = true; //Делаем его видимым
-                        _enemiesMunitions[i].Top += _enemiesMunitionSpeed; //Отдаляем снаряд от верха экрана
-                        CollisionWithEnemiesMunition(); //Запускаем метод
-                    }
-                    else //Иначе
-                    {
-                        _enemiesMunitions[i].Visible = false; //Делаем снаряд невидимым
-                        int randomEnemy = _random.Next(0, _enemies.Length); //Рандомный враг равен случайному врагу
-                        _enemiesMunitions[i].Location = new Point(_enemies[randomEnemy].Location.X + 20, _enemies[randomEnemy].Location.Y + 20); //Задаём расположение снаряду
-                        Controls.Add(_enemiesMunitions[i]); //Добавляем снаряд на экран
-                    }
-                }
-                catch
-                {
 
+                if (_enemiesMunitions[i].Top < Height) //Если снаряд врага в зоне видимости
+                {
+                   _enemiesMunitions[i].Visible = true; //Делаем его видимым
+                   _enemiesMunitions[i].Top += _enemiesMunitionSpeed; //Отдаляем снаряд от верха экрана
+                   CollisionWithEnemiesMunition(); //Запускаем метод
+                }
+                else //Иначе
+                {
+                    _enemiesMunitions[i].Visible = false; //Делаем снаряд невидимым
+                    int randomEnemy = _random.Next(0, _enemies.Length); //Рандомный враг равен случайному врагу
+                    _enemiesMunitions[i].Location = new Point(_enemies[randomEnemy].Location.X + 20, _enemies[randomEnemy].Location.Y + 20); //Задаём расположение снаряду
+                    Controls.Add(_enemiesMunitions[i]); //Добавляем снаряд на экран
                 }
             }
         }
@@ -444,6 +444,7 @@ namespace SpaceShooter
         private void RestartButton_Click(object sender, EventArgs e) //Если нажата кнопка перезапуска
         {
             Controls.Clear(); //Отчищаем экран от добавленных объектов
+            GC.Collect();
             InitializeComponent(); //Иницилизируем объекты
             Form1_Load(sender, e); //Запускаем метод
         }
