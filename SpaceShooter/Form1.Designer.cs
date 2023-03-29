@@ -199,21 +199,20 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Timer MoveBackgroundTimer;
         private System.Windows.Forms.PictureBox Player;
-        private System.Windows.Forms.Timer UpMoveTimer;
-        private System.Windows.Forms.Timer DownMoveTimer;
-        private System.Windows.Forms.Timer LeftMoveTimer;
-        private System.Windows.Forms.Timer RightMoveTimer;
-        private System.Windows.Forms.Timer MoveMunitionsTimer;
-        private System.Windows.Forms.Timer MoveEnemiesTimer;
-        private System.Windows.Forms.Timer EnemiesMunitionTimer;
         private System.Windows.Forms.Label Label;
         private System.Windows.Forms.Button RestartButton;
         private System.Windows.Forms.Button ExitButton;
         private System.Windows.Forms.Label ScoreCount;
         private System.Windows.Forms.Label LevelCount;
+        public System.Windows.Forms.Timer MoveBackgroundTimer;
+        public System.Windows.Forms.Timer UpMoveTimer;
+        public System.Windows.Forms.Timer DownMoveTimer;
+        public System.Windows.Forms.Timer LeftMoveTimer;
+        public System.Windows.Forms.Timer RightMoveTimer;
+        public System.Windows.Forms.Timer MoveMunitionsTimer;
+        public System.Windows.Forms.Timer MoveEnemiesTimer;
+        public System.Windows.Forms.Timer EnemiesMunitionTimer;
     }
 }
 

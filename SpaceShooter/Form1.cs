@@ -221,25 +221,18 @@ namespace SpaceShooter
 
         private void Form1_KeyUp(object sender, KeyEventArgs e) //Событие, происходящее при отпускании клавиши
         {
+            bool cantStartFromPause = false; //Перезапуск с паузы возможен
+
             RightMoveTimer.Stop(); //Останавливаем таймер
             LeftMoveTimer.Stop(); //Останавливаем таймер
             DownMoveTimer.Stop(); //Останавливаем таймер
             UpMoveTimer.Stop(); //Останавливаем таймер
 
-            if (e.KeyCode == Keys.Space) //Если нажат пробел
+            while (e.KeyCode == Keys.Space) //Пока нажат пробел
             {
                 if (_isGameOver == false) //Если игрок не проиграл
                 {
-                    if (_isPause) //Если на паузе
-                    {
-                        StartTimers(); //Запускаем метод
-                        Label.Visible = false; //Делаем текст невидимым
-                        ExitButton.Visible = false; //Делаем кнопку выхода невидимой
-                        RestartButton.Visible = false; //Делаем кнопку рестарта невидимой
-                        _backgroundSound.controls.play(); //Запускаем музыку
-                        _isPause = false; //Отключаем паузу
-                    }
-                    else //Иначе
+                    if (_isPause == false) //Если нет паузы
                     {
                         StopTimers(); //Останавливаем таймеры
                         Label.Location = new Point(153, 150); //Указываем расположение
@@ -248,7 +241,18 @@ namespace SpaceShooter
                         ExitButton.Visible = true; //Кнопка выхода видима
                         RestartButton.Visible = true; //Кнопка перезапуска видима
                         _backgroundSound.controls.pause(); //Ставим музыку на паузу
-                        _isPause = true; //Включаем паузу
+                        _isPause = true; //Нельзя перезапуститься с паузы
+                        cantStartFromPause = true; //Игра остановлена
+                        return; //Возвращаем
+                    }
+                    else if (_isPause && cantStartFromPause == false) //Если на паузе и с паузы можно перезапуститься
+                    {
+                        StartTimers(); //Запускаем метод
+                        Label.Visible = false; //Делаем текст невидимым
+                        ExitButton.Visible = false; //Делаем кнопку выхода невидимой
+                        RestartButton.Visible = false; //Делаем кнопку рестарта невидимой
+                        _backgroundSound.controls.play(); //Запускаем музыку
+                        _isPause = false; //Отключаем паузу
                     }
                 }
             }
@@ -463,19 +467,7 @@ namespace SpaceShooter
             Controls.Clear(); //Отчищаем экран от добавленных объектов
             InitializeComponent(); //Иницилизируем объекты
             Form1_Load(sender, e); //Запускаем метод
-            /*Controls.Clear();
-            InitializeComponent();
-            Form1_Load(sender, e);*/
-            //Restart(sender, e);
         }
-
-        /*private void Restart(object sender, EventArgs e)
-        {
-            Controls.Clear();
-            InitializeComponent();
-            Form1_Load(sender, e);
-        }*/
-
         private void ExitButton_Click(object sender, EventArgs e) //Если нажата кнопка выхода
         {
             Environment.Exit(0); //Выходим

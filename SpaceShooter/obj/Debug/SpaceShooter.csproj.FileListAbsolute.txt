@@ -11,7 +11,6 @@ C:\Users\Student\source\repos\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.p
 D:\Projects\SpaceShooter\SpaceShooter\bin\Debug\SpaceShooter.exe.config
 D:\Projects\SpaceShooter\SpaceShooter\bin\Debug\SpaceShooter.exe
 D:\Projects\SpaceShooter\SpaceShooter\bin\Debug\SpaceShooter.pdb
-D:\Projects\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.csprojAssemblyReference.cache
 D:\Projects\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.Form1.resources
 D:\Projects\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.Properties.Resources.resources
 D:\Projects\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.csproj.GenerateResource.cache
@@ -24,3 +23,4 @@ C:\Users\Student\source\repos\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.c
 D:\Projects\SpaceShooter\SpaceShooter\obj\Debug\Interop.MediaPlayer.dll
 D:\Projects\SpaceShooter\SpaceShooter\obj\Debug\Interop.WMPLib.dll
 D:\Projects\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.csproj.ResolveComReference.cache
+D:\Projects\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.csprojAssemblyReference.cache
