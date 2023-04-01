@@ -221,14 +221,12 @@ namespace SpaceShooter
 
         private void Form1_KeyUp(object sender, KeyEventArgs e) //Событие, происходящее при отпускании клавиши
         {
-            bool cantStartFromPause = false; //Перезапуск с паузы возможен
-
             RightMoveTimer.Stop(); //Останавливаем таймер
             LeftMoveTimer.Stop(); //Останавливаем таймер
             DownMoveTimer.Stop(); //Останавливаем таймер
             UpMoveTimer.Stop(); //Останавливаем таймер
 
-            while (e.KeyCode == Keys.Space) //Пока нажат пробел
+            if (e.KeyCode == Keys.Space) //Пока нажат пробел
             {
                 if (_isGameOver == false) //Если игрок не проиграл
                 {
@@ -242,10 +240,8 @@ namespace SpaceShooter
                         RestartButton.Visible = true; //Кнопка перезапуска видима
                         _backgroundSound.controls.pause(); //Ставим музыку на паузу
                         _isPause = true; //Нельзя перезапуститься с паузы
-                        cantStartFromPause = true; //Игра остановлена
-                        return; //Возвращаем
                     }
-                    else if (_isPause && cantStartFromPause == false) //Если на паузе и с паузы можно перезапуститься
+                    else if (_isPause) //Если на паузе и с паузы можно перезапуститься
                     {
                         StartTimers(); //Запускаем метод
                         Label.Visible = false; //Делаем текст невидимым
